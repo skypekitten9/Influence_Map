@@ -11,10 +11,11 @@ public class AffectMapScript : MonoBehaviour
     void Update()
     {
         tileMap = GameObject.Find("Tilemap");
-        foreach(Transform child in transform)
+        foreach(Transform child in tileMap.transform)
         {
             float distance = Vector3.Distance(child.transform.position, transform.position);
-            child.GetComponent <TileScript>().ApplyIntensity(10f);
+            child.GetComponent <TileScript>().ApplyIntensity(distance, negative);
         }
+
     }
 }

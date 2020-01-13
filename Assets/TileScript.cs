@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class TileScript : MonoBehaviour
 {
-    float intensity;
+    float intensity, lastIntensity;
     Color tileColor;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        intensity = 0;
+        lastIntensity = 0;
         tileColor = new Color(0, 0, 0, 0);
     }
 
@@ -19,16 +21,20 @@ public class TileScript : MonoBehaviour
     {
         CalculateColor();
         GetComponent<Renderer>().material.color = tileColor;
+        lastIntensity = intensity;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         intensity = 0;
     }
 
     void CalculateColor()
     {
-
+        if(intensity == 0)
+        {
+            intensity = 0.1f;
+        }
         if(intensity < 0)
         {
             tileColor = new Color(1, 1/(intensity*(-1)), 1/(intensity * (-1)), 0);
@@ -39,9 +45,17 @@ public class TileScript : MonoBehaviour
         }
     }
 
-    public void ApplyIntensity(float distance)
+    public void ApplyIntensity(float distance, bool negative)
     {
-        intensity += distance;
+        float intensityToApply;
+        if (distance < 1) intensityToApply = 10;
+        else if (distance < 1.5f) intensityToApply = 4;
+        else if (distance < 2.5f) intensityToApply = 0.5f;
+        else intensityToApply = 0;
+
+        if (negative) intensity -= intensityToApply;
+        else intensity += intensityToApply;
+        Debug.Log("Intensity applied with: " + distance);
     }
 }
 
