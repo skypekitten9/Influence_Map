@@ -55,7 +55,11 @@ public class TileScript : MonoBehaviour
 
         if (negative) intensity -= intensityToApply;
         else intensity += intensityToApply;
-        Debug.Log("Intensity applied with: " + distance);
+    }
+
+    public float GetLastIntensity()
+    {
+        return lastIntensity;
     }
 }
 
